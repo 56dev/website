@@ -6,40 +6,130 @@
     <!-- The style.css file allows you to change the look of your web pages.
          If you include the next line in all your web pages, they will all share the same look.
          This makes it easier to make new pages for your site. -->
-    <link href="/global.css" rel="stylesheet" type="text/css" media="all">
+    <link href="./css/global.css" rel="stylesheet" type="text/css" media="all">
   </head>
   <body>
-      <div class="body-container">
-        <div id="hanging-star">
-          <p style="margin-bottom: 0">
-          |<br>
-          |<br>
-          |<br>
-          |<br>
+      
+      <div class="stars">
+        <p style="margin-bottom: 0">
+        ★
+        ★
+        ★
+        ★
+        ★
+        ★  
+        </p>
+        <p style="font-size:1rem" >who is this who darkens counsel by words without knowledge? <i>Job 38:2</i></p>
+          
+      </div>
+
+      <div class="left-border"></div>
+      <div class="main">
+        <div class="column">
+          
+          <h1>welcome back!</h1>
+        
+          <p id="clock">good day - it is </p>
+          
+          <img src="./images/pipesglt.png">
+          
+          <h2>bio and about this site:</h2>
+          <p>a developer from Canada.</p>
+          <p>You can call me: 56dev_, hci56, or sai.</p>
+          <p>This site doubles as a portfolio and personal site.</p>
+          <a href = "mailto:programsym987@gmail.com">email me</a>
+          <a href="https://x.com/56dev_">twitter/x</a>
+          <h2>latest news:</h2>
+          
+          <p id="news">
+            <ul>
+              <li>Jan 23, 2025</li>
+              <ul>
+                <li>Webpage redesign (again), and added a resource.</li>
+                
+              </ul>
+            </ul>
+            
           </p>
-          <p style="margin-top: 0" id="star">★</p>
+          
+
+        </div>
+        <div class="column" style="padding-top: 10px;">
+          <h2>project directory:</h2>
+          <ul>
+          <li>02-2024 - _____ <a target="_blank" href="https://56dev.itch.io/forever-reverie">foreverreverie</a></li>
+            <ul>
+              <li>type: RPG</li>
+              <li>status: UNFINISHED</li>
+
+            </ul>
+          </ul>
+          <h2>blog:</h2>
+          <ul>
+            <li>you just wait</li>
+          
+          </ul>
+          <h2>writings:</h2>
+          <ul>
+            <li>you just wait</li>
+          
+          </ul>
           
         </div>
-      <div class="main">
-        
-        <h1>welcome to 56dev_'s website!</h1>
-        
-        <p>good day! explore and navigate below:</p>
-        
-        <a href = "abt-me.html">abt me</a>
-        <a href = "portfolio/games.html">portfolio</a>
-        <a href = "writings.html">writings</a>
-        <br>
-        <br><a href = "mailto:programsym987@gmail.com">contact me</a>
-        
-        
-        <h2>LATEST NEWS:</h2>
-        <p id="news">nothing yet! but, keep an eye on the writings page ;)</p>
-        <p>test</p>
-        
-      </div>
-    </div>
-  <script></script>
+
+        <div class="column" >
+          <h2>resources:</h2>
+          <ul>
+            <li><a href="./resources/creeds.html">creeds of the christian faith</a></li>
+
+          </ul>
+          <h2>gallery</h2>
+          <ul>
+            <li>coming soon</li>
+          </ul>
+
+        </div>
+
+        </div>
+
+
+  <script>
+
+    const timeElement = document.getElementById("clock");
+    const timeIntro = document.getElementById("clock").innerText
+function updateTime() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    // Format the string with leading zeroes
+    const clockStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const day = now.getDay()
+    const month = now.getMonth()
+    const date = now.getDate()
+    const year = now.getFullYear()
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let intro = ""
+    if (hours < 12) {
+      intro = "good morning, it is"
+    }
+    else if (hours >= 12 && hours < 19) {
+      intro ="good afternoon, it is"
+    }
+    else {
+      intro = "good evening, it is"
+    }
+
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    timeElement.innerText = `${intro} ${days[day]} on ${months[month]} ${date}, ${year}, and the time is ${clockStr}.`
+}
+
+updateTime();
+setInterval(updateTime, 1000);
+
+
+  </script>
   </body>
   
   
