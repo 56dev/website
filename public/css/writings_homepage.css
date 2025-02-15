@@ -1,0 +1,104 @@
+:root{
+
+  border-left-color: var(--almost-black);
+  border-left-style: solid;
+  border-left-width: 8px;
+}
+
+body{
+
+  background-image: url("../images/hex.png");
+}
+
+
+.title {
+  
+  transform: rotate(-10deg);
+  max-width: 20rem;
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  pointer-events: none;
+    
+}
+
+.title > h1{
+  background-color: black;
+  font-size: 3rem;
+  color: white;
+  padding: 10px;
+  margin-bottom: 0px;
+  pointer-events: all;
+  
+  
+}
+
+
+ul > li > a {
+  color: black;
+} 
+h2{
+  font-size: 1.2rem;
+  background-color: black;
+  color: white;
+  padding: 0px;
+  margin: 0px;
+}
+
+.title > p{
+
+  margin-top: 0px;
+  max-width: 14rem;
+  pointer-events: all;
+
+}
+
+a {
+  color: gray;
+}
+
+
+
+.main {
+
+
+margin-left: 16rem;
+margin-top: 4rem; 
+width: fit-content;
+min-width: 30rem;
+
+
+}
+
+.main > .listing {
+  box-shadow: 10px 10px gray;
+  clear: right;
+  max-width: 30rem;
+  padding: 1rem;
+  background-color:hsl(40, 11%, 95%);
+}
+
+#header-img {
+  display: block;
+  float: right;
+  width:300px;
+  box-shadow: 10px 10px gray;
+  margin-bottom: 20px;
+  
+
+
+}
+
+.main > .tags {
+  margin: 10px;
+  padding: 10px;
+  
+  
+}
+
+.main > .tags > p {
+  color: black;
+}
+
+
+

@@ -1,0 +1,72 @@
+
+  
+  body{
+  
+    background-image: url("../images/hex.png");
+  }
+  
+
+  
+  a {
+    color: gray;
+  }
+
+
+  
+  img {
+
+    max-width: 20rem;
+    display: block;
+    box-shadow: 10px, 10px, gray;
+
+  }
+  
+  
+  .main {
+  
+  
+  margin-left: 16rem;
+  margin-top: 4rem; 
+  width: fit-content;
+  min-width: 30rem;
+  max-width: 40rem;
+  margin-bottom: 20rem;
+  
+  }
+  p{
+    text-indent: 10%
+  }
+  
+  .main > .listing {
+    box-shadow: 10px 10px gray;
+    clear: right;
+    max-width: 30rem;
+    padding: 1rem;
+    background-color:hsl(40, 11%, 95%);
+  }
+  
+  #header-img {
+    display: block;
+    float: right;
+    width:300px;
+    box-shadow: 10px 10px gray;
+    margin-bottom: 20px;
+    
+  
+  
+  }
+  
+  .main > .tags {
+    margin: 10px;
+    padding: 10px;
+    
+    
+  }
+  
+  .main > .tags > p {
+    color: black;
+  }
+  
+  
+  
+  

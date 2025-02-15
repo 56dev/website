@@ -20,11 +20,11 @@
         ★  
         </p>
         <p style="font-size:1rem" >who is this who darkens counsel by words without knowledge? <i>Job 38:2</i></p>
-          
+        <p style="font-size:1rem" id="loading-time">Loading ...</p>
       </div>
 
       <div class="left-border"></div>
-      <div class="main">
+      <div class="main-table">
         <div class="column">
           
           <h1>welcome back!</h1>
@@ -33,19 +33,19 @@
           
           <img src="./images/pipesglt.png">
           
-          <h2>bio and about this site:</h2>
+          <h2><a href=".\bio-and-about.html">bio and about this site</a></h2>
           <p>a developer from Canada.</p>
           <p>You can call me: 56dev_, hci56, or sai.</p>
           <p>This site doubles as a portfolio and personal site.</p>
           <a href = "mailto:programsym987@gmail.com">email me</a>
           <a href="https://x.com/56dev_">twitter/x</a>
-          <h2>latest news:</h2>
+          <h2><a href=".\latest-news.html">latest news:</a></h2>
           
           <p id="news">
             <ul>
-              <li>Jan 23, 2025</li>
+              <li>Feb 15, 2025</li>
               <ul>
-                <li>Webpage redesign (again), and added a resource.</li>
+                <li>Opened the fifty-sixth hangstar library, and published a story!</li>
                 
               </ul>
             </ul>
@@ -63,15 +63,21 @@
               <li>status: UNFINISHED</li>
 
             </ul>
+            <!-- <li>02-2025 - _____ ??????</li>
+            <ul>
+              <li>type: platformer</li>
+              <li>status: UNFINISHED</li>
+
+            </ul> -->
           </ul>
           <h2>blog:</h2>
           <ul>
             <li>you just wait</li>
           
           </ul>
-          <h2>writings:</h2>
+          <h2><a href="./writings/index.html">writings:</a></h2>
           <ul>
-            <li>you just wait</li>
+            <li><a href=".\writings\proxima.html">proxima</a></li>
           
           </ul>
           
@@ -97,36 +103,44 @@
 
     const timeElement = document.getElementById("clock");
     const timeIntro = document.getElementById("clock").innerText
-function updateTime() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
+    function updateTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
 
-    // Format the string with leading zeroes
-    const clockStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    const day = now.getDay()
-    const month = now.getMonth()
-    const date = now.getDate()
-    const year = now.getFullYear()
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let intro = ""
-    if (hours < 12) {
-      intro = "good morning, it is"
+        // Format the string with leading zeroes
+        const clockStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const day = now.getDay()
+        const month = now.getMonth()
+        const date = now.getDate()
+        const year = now.getFullYear()
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let intro = ""
+        if (hours < 12) {
+          intro = "good morning, it is"
+        }
+        else if (hours >= 12 && hours < 19) {
+          intro ="good afternoon, it is"
+        }
+        else {
+          intro = "good evening, it is"
+        }
+
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        timeElement.innerText = `${intro} ${days[day]} on ${months[month]} ${date}, ${year}, and the time is ${clockStr}.`
     }
-    else if (hours >= 12 && hours < 19) {
-      intro ="good afternoon, it is"
-    }
-    else {
-      intro = "good evening, it is"
+    const perf = () => {
+      const duration = performance.getEntriesByType("navigation")[0].duration;
+      if (!duration) setTimeout(perf, 0);
+      else document.getElementById("loading-time").innerText = `||| Page loaded in ${Math.round(duration * 10) / 10} ms.`;
     }
 
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    timeElement.innerText = `${intro} ${days[day]} on ${months[month]} ${date}, ${year}, and the time is ${clockStr}.`
-}
+    window.addEventListener('DOMContentLoaded', perf);
 
-updateTime();
-setInterval(updateTime, 1000);
+    
+    updateTime();
+    setInterval(updateTime, 1000);
 
 
   </script>
