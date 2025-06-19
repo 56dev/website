@@ -18,6 +18,7 @@
   border-left-width: 1px;
 
 }
+
 body {
   
   background-color : var(--almost-white);
@@ -29,16 +30,50 @@ body {
 
 .main{
 
-  background-color : white;
+  background-color : var(--almost-white);
   padding: 3rem;
   width: fit-content;
   max-width: 60rem;
   box-shadow: 50px 50px #ececec;
-    margin: 3rem;
+  
+
 
 }
 
+.main-table{
+  background-color : white;
+  padding: 3rem;
+  width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 50px 50px #ececec;
+  margin: 3rem;
+  
 
+}
+
+.main-table > .column{
+
+  max-width: 15rem;
+  min-width: 11rem;
+  width: fit-content;
+  border-color: var(--orange);
+  border-left-style: solid;
+  border-width: 1px;
+  
+  
+}
+
+.main-table > .column-large{
+
+  max-width: 25rem;
+  width: fit-content;
+  border-color: var(--orange);
+  border-left-style: solid;
+  border-width: 1px;
+  
+
+}
 
 p, a, li{
   line-height: 13px;
@@ -56,10 +91,10 @@ img{
 }
 a { color: var(--orange-accent)}
 
-h1{
+h1, h2, h3, h4, h5, h6 {
   
-  font-size : 2rem;
-  color : black;
+  font-size : 1.75rem;
+
   background-color : var(--orange);
   padding: 0px 10px;
   margin: 0px;
@@ -69,19 +104,32 @@ h2 > a{
   color : black;
 }
 
+h2:before{
+  content: "⋆ ";
+  background: transparent;
+  color:black;
+}
 h2, h3, h4, h5, h6 {
 
-  font-size : 1.5rem;
-  margin-top: 2rem;
+  font-size : 1rem;
+  margin-top: 1rem;
 }
 
 
+.stars{
 
+  font-size: 2rem;
+  color : white;
+  background-color : var(--orange);
+  
+}
+.stars > p{
+  display: inline;
+}
 
 p, a {
   margin-bottom: 0.5rem;
 }
-
 
 
 
