@@ -6,14 +6,13 @@
   
   --almost-white : #fbf6f6;
   --almost-black : #060C0C;
-  --orange : #ffd1ba;
-  --orange-accent :#ff8d4d;
-  --light-orange :#ffb473;
+  --primary : #ffd1ba;
+  --accent :#ff8d4d;
 
   font-family: 'Inconsolata';
   font-size: 15px;
   height: 100%;
-  border-left-color: var(--orange);
+  border-left-color: var(--primary);
   border-left-style: solid;
   border-left-width: 1px;
 
@@ -54,13 +53,13 @@ img{
   max-height:100%;
   
 }
-a { color: var(--orange-accent)}
+a { color: var(--accent)}
 
 h1{
   
   font-size : 2rem;
   color : black;
-  background-color : var(--orange);
+  background-color : var(--primary);
   padding: 0px 10px;
   margin: 0px;
 }

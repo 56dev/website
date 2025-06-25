@@ -1,9 +1,9 @@
 
   
-  body{
+  /* body{
   
     background-image: url("../images/hex.png");
-  }
+  } */
   
 
   
@@ -25,7 +25,8 @@
   .main {
   
   
-  margin-left: 16rem;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 4rem; 
   width: fit-content;
   min-width: 30rem;
@@ -65,6 +66,23 @@
   
   .main > .tags > p {
     color: black;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h1, h2, h3 {
+    text-align: center;
+  }
+
+  .center {
+
+    text-align: center;
+
+  }
+  .center > p{
+    text-indent: 0%
   }
   
   
