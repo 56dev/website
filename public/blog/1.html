@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="../css/default_blog_post.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+  
+<body>
+
+    <a href="../index.html" id="back">back</a>
+    <main>
+        <h1>Checking NTFS Execution Permissions with the Win32 API in C++.</h1>
+        <p>For people who have never worked with Win32 before (AKA, me, a day before writing this blog post).</p>
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <ul>
+                <li><a href="#prerequisities">Prerequisites</a></li>
+                <li><a href="#environment">Environment</a></li>
+                <li><a href="#disclaimer">Disclaimer</a></li>
+            </ul>
+        </ul>
+        <h2 id="introduction">Introduction</h2>
+        <p>
+            Finding execution permissions is not as simple in Windows as it is in 
+            POSIX-style systems. Usually you would just use <span class="code">std::filesystem::status::permissions</span>,
+            which, in theory, <em>could</em> actually work, but there could be a serious discrepancy between the bitmask based POSIX system and the 
+            system Windows uses.            
+        </p>
+
+        <h3 id="prerequisites">Prerequisites</h3>
+        <p>Some familiarity with C++ (perhaps at least more than 2 weeks :) ).</p>
+
+        <h3 id="environment">Environment</h3>
+        <p>This is in Visual Studio 2022, with <b>C++20</b>. As far as I know, C++17 should work, as that 
+        is the minimum version for the <span class="code">std::filesystem</span> library.</p>
+
+        <h3 id="disclaimer">Disclaimer</h3>
+        <p>If the subtitle wasn't clear enough, I'm no accredited expert on the Win32 API or even of C++. If you find an error or find a section which you would like some 
+            better citations for, please email!
+        </p>
+        <h2>ACLs and Security Descriptors.</h2>
+        <p>
+            To store file permissions in an NTFS-formatted volume, Windows uses <b>ACLs</b>, or <b>Access Control Lists</b>.
+            which store their data in <b>Access Control Entries</b>, or ACEs. 
+            There are two kinds of ACL:
+            <ul>
+                <li><b>DACL</b> - Discretionary ACL</li>
+                <ul>
+                    <li>DACLs identify WHO can access a file.</li>
+                </ul>
+                <li><b>SACL</b> - System ACL</li>
+                <ul>
+                    <li>SACLs control how to audit attempts to access a file.</li>
+                </ul>
+            </ul>
+
+            We're not interested in auditing, so SACLs won't be in the scope of this post.
+        </p>
+        <p>
+            ACLs are stored in an object known as the file's <b>security descriptor</b>. To get access to these files, you will need 
+            to first access its descriptor. 
+        </p>
+
+        <h3>The Code</h3>
+        <p>
+            To do this in C++, you need to use the <span class="code">GetNamedSecurityInfo</span> function.
+            (Or a suitable alternative, but we're using this one in this tutorial.) We will beam the information it gives 
+            into a security descriptor variable.
+            First, make sure you have the necessary header files included: they are <span class="code">&lt;windows.h&gt;</span>
+            and <span class="code">&lt;aclapi.h&gt;</span>. Then, let's create the object.
+        </p>
+
+        <p>
+            <span class="code">
+                PSECURITY_DESCRIPTOR pSD{ nullptr };
+            </span>
+        </p>
+
+        <p>First thing about Win32 you may not be familiar with: You will see a lot of these weird <b>typedefs</b> lying around. Don't be scared. 
+        A <span class="code"><q>PSECURITY_DESCRIPTOR</q></span> is nothing but an alias for a pointer to a void object!
+    
+        </p>
+
+        <p>The function definition for  <span class="code">GetNamedSecurityInfo</span> is as follows:</p>
+
+       
+        <span class="code">
+                DWORD GetNamedSecurityInfo( <br>
+                    LPCSTR pObjectName, <br>
+                    SE_OBJECT_TYPE ObjectType, <br>
+                    SECURITY_INFORMATION SecurityInfo,<br>
+                    [out] PSID* ppsidOwner, <br>
+                    [out] PSID* ppsidGroup, <br>
+                    [out] PACL, <br>
+                    [out] PACL* ppDacl, <br>
+                    [out] PSECURITY_DESCRIPTOR* ppSecurityDescriptor) <br>                
+        </span>
+
+        <p>
+            The function will return a <span class="code">DWORD</span> containing information about whether 
+            it was able to get the information correctly. If the return value of this function does not equal 
+            <span class="code">ERROR_SUCCESS</span> (a macro defined in the API, which is defined as 0L), then it did 
+            not execute correctly.
+        </p>
+
+
+        <p>
+            You need to pass the <b>path to your file</b> into <span class="code">pObjectName</span>. Because <span class="code">LPCSTR</span>
+            is an alias for a <span class="code">const char *</span> object -- also known as a 
+            <b>C-style string</b> -- you will probably need to call <span class="code">c_str()</span>
+            on your path.
+        </p>
+
+        <p>The function needs to know what kind of object this is. <span class="code">SE_OBJECT_TYPE</span> is an unscoped enum that allows 
+        you to do just that. </p>
+        <p>Tip: if you want to get information behind a certain type definition, in Visual Studio you can 
+            <b>control + click</b> on the type and it will take you to where it is defined. If you type <span class="code">SE_OBJECT_TYPE</span>
+            and control click on it, you will see all the choices for the different kinds of object you can specify.
+        </p>
+        <p>
+            In this case, <span class="code">SE_FILE_OBJECT</span> is the type you want to pass in.
+        </p>
+        <p>
+            <span class="code">SecurityInfo</span> refers to the kind of information you want to get. 
+            There are three that we want: Owner Security Information, Group Security Information, and DACL Security Information.
+            Hence, we OR them together. 
+        </p>
+
+        <span class="code">OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION</span>
+
+        <p>
+            All of the out parameters are actually optional. You can set most of them to <span class="code">nullptr</span> ...
+            except for <span class="code">ppSecurityDescriptor</span>, where you'll pass in the descriptor object you created.
+        </p>
+
+        <p>... pass by address, by the way. You'll find that the Win32 API loves to play with pointers. In fact, that "pp" prefix? That is 
+            Hungarian Notation for pointer to a pointer, which is simply wild.
+        </p>
+
+        <h2>Processes, Handles, and Impersonation</h2>
+
+        <p>
+            You, as a User, have an <b>access token</b> associated with you. The operating system 
+            uses this token to determine the files you can access. Processes that you activate 
+            also use this access token to determine what they can do. For instance: the program that 
+            you are writing will use your access token. This is so that a User with less privileges 
+            can't just use a process to get unauthorized information, as that would be ... well, stupid.
+        </p>
+        
+
+        
+        
+
+        
+
+        <h2 id="citations">Citations</h2>
+        <ul>
+            <li>https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists</li>
+        </ul>
+    </main>
+
+
+</body>
+</html>

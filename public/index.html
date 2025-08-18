@@ -1,126 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hci56</title>
-    <!-- The style.css file allows you to change the look of your web pages.
-         If you include the next line in all your web pages, they will all share the same look.
-         This makes it easier to make new pages for your site. -->
-    <link href="./css/index.css" rel="stylesheet" type="text/css" media="all">
-  </head>
-  <body>
-      
-      <div class="stars">
-        <p style="margin-bottom: 0">
-        ★ ★ ★
-        </p>
-        <p style="font-size:1rem" id="loading-time">Loading ...</p>
-      </div>
-      
-      <div class="main-table">
-        <div class="column">
-          
-          <h1>welcome back!</h1>
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>56dev's website</title>
+  <link href="./css/index.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <div class="stars">
+      <p style="margin-bottom: 0">
+      ★ ★ ★
+      </p>
+      <p style="font-size:1rem" id="loading-time">Loading ...</p>
+    </div>
+    <main>
+
+      <div class="column">
+        <h1>welcome back!</h1>
+        <p id="clock">good day - it is </p>
+        <img src="./images/pipesglt.png">
+        <p>please click the headings to navigate across the site!</p>
         
-          <p id="clock">good day - it is </p>
-          
-          <img src="./images/pipesglt.png">
-          
+        <div>
           <h2><a href=".\bio-and-about.html">bio and about this site</a></h2>
           <p>I am 56dev_! a developer from Canada.</p>
           <p>This site doubles as a portfolio and personal site.</p>
+          
           <a href = "mailto:programsym987@gmail.com">email me</a>
           <a href="https://x.com/56dev_">twitter/x</a>
-          <h2><a href=".\latest-news.html">latest news:</a></h2>
-          
-          
+        </div>
+
+        <div>
+          <h2><a href=".\update-log.html">update log</a></h2>
+          <p><b>Please note, as of August 9, 2025, this section no longer 
+                records blog, writing, or gallery updates!</b>  Its domain is now restricted 
+                to updates to the site itself.
+              </p>
             <ul id="news">
+              
               <li>Feb 15, 2025</li>
               <ul>
                 <li>Opened the fifty-sixth hangstar library, and published a story!</li>
-                
               </ul>
-            </ul>
-            
-          
-          
-
+            </ul> 
         </div>
-        <div class="column" style="padding-top: 10px;">
-          
+            
+      </div>
+
+      <div class="column" style="padding-top: 10px;">     
+        
+        <div>
           <h2>blog:</h2>
           <ul>
-            <li>you just wait</li>
-          
+            <li>you just wait</li>        
           </ul>
+        </div>
 
+        <div>
           <h2><a href="./writings/index.html">writings:</a></h2>
           <p>Latest short story: </p>
-          <p><a href=".\writings\data\angel.html">Angel</a></p>
-          
-          
-          
+          <p><a href=".\writings\data\angel.html">Angel</a></p>  
         </div>
 
-        <div class="column" >
-          
-          <h2>gallery</h2>
-          <ul>
-            <li>coming soon</li>
-          </ul>
+      </div>
 
-        </div>
+      <div class="column" >
+        
+        <h2><a href="gallery/index.html">gallery</a></h2>
+        <p>latest uploaded image:</p>
+        <img src = "images/gallery/06-08-25.PNG">
+        
 
-        </div>
-  <script type="module" src="scripts/global/parse_csv.js"></script>
-  <script type="module" src="scripts/index/display_latest_news.js"></script>
+      </div>
 
-  <script>
+    </main>
 
-    const timeElement = document.getElementById("clock");
-    const timeIntro = document.getElementById("clock").innerText
-    function updateTime() {
-        const now = new Date();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
+<script type="module" src="scripts/global/parse_csv.js"></script>
+<script type="module" src="scripts/index/display_latest_news.js"></script>
+<script type="module" src="scripts/index/date_and_time.js"></script>
 
-        // Format the string with leading zeroes
-        const clockStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        const day = now.getDay()
-        const month = now.getMonth()
-        const date = now.getDate()
-        const year = now.getFullYear()
-        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        let intro = ""
-        if (hours < 12) {
-          intro = "good morning, it is"
-        }
-        else if (hours >= 12 && hours < 19) {
-          intro ="good afternoon, it is"
-        }
-        else {
-          intro = "good evening, it is"
-        }
-
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        timeElement.innerText = `${intro} ${days[day]} on ${months[month]} ${date}, ${year}, and the time is ${clockStr}.`
-    }
-    const perf = () => {
-      const duration = performance.getEntriesByType("navigation")[0].duration;
-      if (!duration) setTimeout(perf, 0);
-      else document.getElementById("loading-time").innerText = `||| Page loaded in ${Math.round(duration * 10) / 10} ms.`;
-    }
-
-    window.addEventListener('DOMContentLoaded', perf);
-
-    
-    updateTime();
-    setInterval(updateTime, 1000);
-
-
-  </script>
-  </body>
+</body>
   
   
   

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>latest news - 56dev</title>
+  <link href="../css/gallery.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+  <a href="..\index.html">BACK</a>
+
+  <main>
+    <h1>GALLERY</h1>
+    <p>Please click on the images to zoom in further!</p>
+    <div class="image-grid">
+    <div>
+      <a href="javascript:displayCloseupImage('../images/gallery/06-08-25.PNG');">
+        <img src="../images/gallery/06-08-25.PNG">
+      </a>
+      <p>Girl Staring out a Window</p>
+      <p>|| 06/08/2025 ||</p>
+      <p>This is the first real big design composition I did in a while, 
+        and the first one ever done digitally.
+      </p>
+    </div>
+
+    <div>
+      <a href="javascript:displayCloseupImage('../images/gallery/30-07-25.jpg');">
+        <img src="../images/gallery/30-07-25.jpg">
+      </a>   
+      <p>Untitled Sketch</p>
+      <p>|| 30/07/2025 ||</p>
+    </div>
+
+    <div>
+    <a href="javascript:displayCloseupImage('../images/gallery/29-07-25.PNG');">
+      <img src="../images/gallery/29-07-25.PNG">
+    </a>
+    <p>Kiara</p>
+    <p>|| 29/07/2025 ||</p>
+    <p>This is the product of a few days' worth of attempting to figure out 
+      how to do digital lineart. I was really proud and thankful when I figured 
+      it out with this. Also, when I showed it to my friends, one of them 
+      gave her the name Kiara, so that's what she's called to this day.
+    </p>
+    </div>
+  </div>
+  </main>
+  
+  <div id="image-closeup-container">
+    <img id="image-closeup" src="../images/gallery/06-08-25.PNG">
+    <button onclick="javascript:closeCloseupImage()">close</button>
+    <p id="resolution">resolution: </p>
+  </div>
+  
+
+</body>
+
+<script src="../scripts/gallery/display_image_closeup.js">
+</script>
+
+
+
+
+</html>

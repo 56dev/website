@@ -2,7 +2,8 @@
 @font-face {font-family: HelvetiPixel; src: url('../fonts/HelvetiPixel.ttf')}
 @font-face {font-family: Inconsolata; src: url('../fonts/Inconsolata-VariableFont_wdth,wght.ttf')}
 
-:root {
+:root 
+{
   
   --almost-white : #fbf6f6;
   --almost-black : #060C0C;
@@ -17,7 +18,9 @@
   border-left-width: 1px;
 
 }
-body {
+
+body 
+{
   
   background-color : var(--almost-white);
   width: 100%;
@@ -26,12 +29,13 @@ body {
   
 }
 
-.main{
+main
+{
 
   background-color : white;
   padding: 3rem;
   width: fit-content;
-  max-width: 60rem;
+  max-width: 50rem;
   box-shadow: 50px 50px #ececec;
     margin: 3rem;
 
@@ -39,15 +43,17 @@ body {
 
 
 
-p, a, li{
+p, a, li
+{
   line-height: 13px;
   color : var(--almost-black); 
   text-align: left;
-  padding: 0px 5px;
+  padding: 0px 30px;
 
 }
 
-img{
+img
+{
   width:auto;
   max-width:100%;
   max-height:100%;
@@ -55,7 +61,8 @@ img{
 }
 a { color: var(--accent)}
 
-h1{
+h1
+{
   
   font-size : 2rem;
   color : black;
@@ -64,11 +71,13 @@ h1{
   margin: 0px;
 }
 
-h2 > a{
+h2 > a
+{
   color : black;
 }
 
-h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 
+{
 
   font-size : 1.5rem;
   margin-top: 2rem;
@@ -77,7 +86,8 @@ h2, h3, h4, h5, h6 {
 
 
 
-p, a {
+p, a 
+{
   margin-bottom: 0.5rem;
 }
 

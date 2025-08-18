@@ -1,6 +1,8 @@
 
 
-
+.code {
+    font-family: 'Consolas', monospace;
+}
 
 main
 {
@@ -17,12 +19,7 @@ main
 h1 
 {
   font-size: 3rem;
-  text-align: center;
-}
 
-h2
-{
-  text-align: center;
 }
 
 p

@@ -2,7 +2,8 @@
 @font-face {font-family: HelvetiPixel; src: url('../fonts/HelvetiPixel.ttf')}
 @font-face {font-family: Inconsolata; src: url('../fonts/Inconsolata-VariableFont_wdth,wght.ttf')}
 
-:root {
+:root 
+{
   
   --almost-white : #fbf6f6;
   --almost-black : #060C0C;
@@ -19,7 +20,8 @@
 
 }
 
-body {
+body 
+{
   
   background-color : var(--almost-white);
   width: 100%;
@@ -28,19 +30,8 @@ body {
   
 }
 
-.main{
-
-  background-color : var(--almost-white);
-  padding: 3rem;
-  width: fit-content;
-  max-width: 60rem;
-  box-shadow: 50px 50px #ececec;
-  
-
-
-}
-
-.main-table{
+main
+{
   background-color : white;
   padding: 3rem;
   width: fit-content;
@@ -52,7 +43,8 @@ body {
 
 }
 
-.main-table > .column{
+main > .column
+{
 
   max-width: 15rem;
   min-width: 11rem;
@@ -60,76 +52,79 @@ body {
   border-color: var(--orange);
   border-left-style: solid;
   border-width: 1px;
-  
-  
+    
 }
 
-.main-table > .column-large{
-
+main > .column-large
+{
   max-width: 25rem;
   width: fit-content;
   border-color: var(--orange);
   border-left-style: solid;
   border-width: 1px;
-  
-
 }
 
-p, a, li{
+p, a, li
+{
   line-height: 13px;
   color : var(--almost-black); 
   text-align: left;
   padding: 0px 5px;
-
+  margin-bottom: 0.5rem;
 }
 
-img{
+
+img
+{
   width:auto;
   max-width:100%;
-  max-height:100%;
-  
+  max-height:100%;  
 }
+
 a { color: var(--orange-accent)}
 
-h1, h2, h3, h4, h5, h6 {
-  
-  font-size : 1.75rem;
-
+h1, h2
+{
   background-color : var(--orange);
   padding: 0px 10px;
   margin: 0px;
 }
 
-h2 > a{
-  color : black;
-}
-
-h2:before{
-  content: "⋆ ";
-  background: transparent;
-  color:black;
-}
-h2, h3, h4, h5, h6 {
+h2
+{
 
   font-size : 1rem;
   margin-top: 1rem;
+
+  :before
+  {
+    content: "⋆ ";
+    background: transparent;
+    color:black;
+  }
+
+  a 
+  { 
+    color:black 
+  }
 }
 
 
-.stars{
+.stars
+{
 
   font-size: 2rem;
   color : white;
   background-color : var(--orange);
+  p
+  {
+    display: inline;
+  } 
   
 }
-.stars > p{
-  display: inline;
-}
 
-p, a {
-  margin-bottom: 0.5rem;
-}
+
+
 
 
 
