@@ -13,151 +13,191 @@
     <a href="../index.html" id="back">back</a>
     <main>
         <h1>Checking NTFS Execution Permissions with the Win32 API in C++.</h1>
-        <p>For people who have never worked with Win32 before (AKA, me, a day before writing this blog post).</p>
+        <p>For people who have never worked with Win32 before (AKA, me, a day before starting to write this blog post).</p>
+        <address>By <a href="mailto:programsym987@gmail.com">56DEV_</a></address>
         <h2>Contents</h2>
         <ul>
             <li><a href="#introduction">Introduction</a></li>
             <ul>
-                <li><a href="#prerequisities">Prerequisites</a></li>
                 <li><a href="#environment">Environment</a></li>
                 <li><a href="#disclaimer">Disclaimer</a></li>
+            </ul>
+            <li><a href="#security-descriptors">Security Descriptors</a></li>
+            <ul>
+                <li><a href="#CODE-security-descriptors">Code</a></li>
             </ul>
         </ul>
         <h2 id="introduction">Introduction</h2>
         <p>
             Finding execution permissions is not as simple in Windows as it is in 
-            POSIX-style systems. Usually you would just use <span class="code">std::filesystem::status::permissions</span>,
-            which, in theory, <em>could</em> actually work, but there could be a serious discrepancy between the bitmask based POSIX system and the 
-            system Windows uses.            
+            POSIX-style systems. Usually you would just use <code>std::filesystem::status::permissions</code>,
+            which, in theory, <em>could</em> actually work, but we're just going to learn to "proper" way to 
+            do it in Windows. 
         </p>
-
-        <h3 id="prerequisites">Prerequisites</h3>
-        <p>Some familiarity with C++ (perhaps at least more than 2 weeks :) ).</p>
 
         <h3 id="environment">Environment</h3>
         <p>This is in Visual Studio 2022, with <b>C++20</b>. As far as I know, C++17 should work, as that 
-        is the minimum version for the <span class="code">std::filesystem</span> library.</p>
+        is the minimum version for the <code>std::filesystem</code> library.</p>
 
         <h3 id="disclaimer">Disclaimer</h3>
         <p>If the subtitle wasn't clear enough, I'm no accredited expert on the Win32 API or even of C++. If you find an error or find a section which you would like some 
             better citations for, please email!
         </p>
-        <h2>ACLs and Security Descriptors.</h2>
-        <p>
-            To store file permissions in an NTFS-formatted volume, Windows uses <b>ACLs</b>, or <b>Access Control Lists</b>.
-            which store their data in <b>Access Control Entries</b>, or ACEs. 
-            There are two kinds of ACL:
-            <ul>
-                <li><b>DACL</b> - Discretionary ACL</li>
-                <ul>
-                    <li>DACLs identify WHO can access a file.</li>
-                </ul>
-                <li><b>SACL</b> - System ACL</li>
-                <ul>
-                    <li>SACLs control how to audit attempts to access a file.</li>
-                </ul>
-            </ul>
 
+        <h2 ID="security-descriptors">Security Descriptors</h2>
+        <p>
+            To store file permissions, Windows uses <b>Security Descriptors</b>. These are made up of 
+            an <b>owner SID</b>, <b>group SID</b>, a <b>DACL</b>, and a <b>SACL</b>. 
+            <ul>
+            <li>The owner SID is usually the person who created the file, 
+            or generally a person with <b>administrative permissions</b> over it.</li>            
+            <li>The group SID is there for compatibility with the POSIX permissions system. </li>
+            <li>The DACL is the <b>access control list</b> 
+            that defines more specific Windows permissions.</li> 
+            <li>The SACL's only use is auditing.</li>
+            </ul>
             We're not interested in auditing, so SACLs won't be in the scope of this post.
         </p>
         <p>
-            ACLs are stored in an object known as the file's <b>security descriptor</b>. To get access to these files, you will need 
-            to first access its descriptor. 
+            To access the security descriptor, we use the <code>GetNamedSecurityInfo</code> function.
         </p>
 
-        <h3>The Code</h3>
+        
+
+        <h3 id="CODE-security-descriptors">The Code</h3>
         <p>
-            To do this in C++, you need to use the <span class="code">GetNamedSecurityInfo</span> function.
+            To do this in C++, you need to use the <code>GetNamedSecurityInfo</code> function.
             (Or a suitable alternative, but we're using this one in this tutorial.) We will beam the information it gives 
             into a security descriptor variable.
-            First, make sure you have the necessary header files included: they are <span class="code">&lt;windows.h&gt;</span>
-            and <span class="code">&lt;aclapi.h&gt;</span>. Then, let's create the object.
+            First, make sure you have the necessary header files included: they are <code>&lt;windows.h&gt;</code>
+            and <code>&lt;aclapi.h&gt;</code>. Then, let's create the object.
         </p>
 
-        <p>
-            <span class="code">
-                PSECURITY_DESCRIPTOR pSD{ nullptr };
-            </span>
-        </p>
-
-        <p>First thing about Win32 you may not be familiar with: You will see a lot of these weird <b>typedefs</b> lying around. Don't be scared. 
-        A <span class="code"><q>PSECURITY_DESCRIPTOR</q></span> is nothing but an alias for a pointer to a void object!
-    
-        </p>
-
-        <p>The function definition for  <span class="code">GetNamedSecurityInfo</span> is as follows:</p>
-
+        <p>The function definition for  <code>GetNamedSecurityInfo</code> is as follows:</p>
        
-        <span class="code">
-                DWORD GetNamedSecurityInfo( <br>
-                    LPCSTR pObjectName, <br>
-                    SE_OBJECT_TYPE ObjectType, <br>
-                    SECURITY_INFORMATION SecurityInfo,<br>
-                    [out] PSID* ppsidOwner, <br>
-                    [out] PSID* ppsidGroup, <br>
-                    [out] PACL, <br>
-                    [out] PACL* ppDacl, <br>
-                    [out] PSECURITY_DESCRIPTOR* ppSecurityDescriptor) <br>                
-        </span>
+        <code>
+            <pre>
+                DWORD GetNamedSecurityInfo( 
+                    LPCSTR pObjectName, 
+                    SE_OBJECT_TYPE ObjectType, 
+                    SECURITY_INFORMATION SecurityInfo,
+                    [out, opt] PSID* ppsidOwner, 
+                    [out, opt] PSID* ppsidGroup, 
+                    [out, opt] PACL ppDACL, 
+                    [out, opt] PACL* ppSACL, 
+                    [out, opt] PSECURITY_DESCRIPTOR* ppSecurityDescriptor)  
+            </pre>            
+        </code>
 
-        <p>
-            The function will return a <span class="code">DWORD</span> containing information about whether 
-            it was able to get the information correctly. If the return value of this function does not equal 
-            <span class="code">ERROR_SUCCESS</span> (a macro defined in the API, which is defined as 0L), then it did 
-            not execute correctly.
-        </p>
-
-
-        <p>
-            You need to pass the <b>path to your file</b> into <span class="code">pObjectName</span>. Because <span class="code">LPCSTR</span>
-            is an alias for a <span class="code">const char *</span> object -- also known as a 
-            <b>C-style string</b> -- you will probably need to call <span class="code">c_str()</span>
-            on your path.
-        </p>
-
-        <p>The function needs to know what kind of object this is. <span class="code">SE_OBJECT_TYPE</span> is an unscoped enum that allows 
-        you to do just that. </p>
-        <p>Tip: if you want to get information behind a certain type definition, in Visual Studio you can 
-            <b>control + click</b> on the type and it will take you to where it is defined. If you type <span class="code">SE_OBJECT_TYPE</span>
-            and control click on it, you will see all the choices for the different kinds of object you can specify.
-        </p>
-        <p>
-            In this case, <span class="code">SE_FILE_OBJECT</span> is the type you want to pass in.
-        </p>
-        <p>
-            <span class="code">SecurityInfo</span> refers to the kind of information you want to get. 
-            There are three that we want: Owner Security Information, Group Security Information, and DACL Security Information.
-            Hence, we OR them together. 
-        </p>
-
-        <span class="code">OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION</span>
-
-        <p>
-            All of the out parameters are actually optional. You can set most of them to <span class="code">nullptr</span> ...
-            except for <span class="code">ppSecurityDescriptor</span>, where you'll pass in the descriptor object you created.
-        </p>
-
-        <p>... pass by address, by the way. You'll find that the Win32 API loves to play with pointers. In fact, that "pp" prefix? That is 
-            Hungarian Notation for pointer to a pointer, which is simply wild.
-        </p>
-
-        <h2>Processes, Handles, and Impersonation</h2>
-
-        <p>
-            You, as a User, have an <b>access token</b> associated with you. The operating system 
-            uses this token to determine the files you can access. Processes that you activate 
-            also use this access token to determine what they can do. For instance: the program that 
-            you are writing will use your access token. This is so that a User with less privileges 
-            can't just use a process to get unauthorized information, as that would be ... well, stupid.
+        <p>Every out paramater is optional. The first four out parameters are if we wanted to access each data structure 
+            individually, but we don't. So, we'll just pass in the address of a <code>PESECURITY_DESCRIPTOR</code> object as the last 
+            argument, and let everything else be null. 
         </p>
         
+        <code>
+        <pre>
+        PSECURITY_DESCRIPTOR pSD{ nullptr };
+
+        DWORD result = GetNamedSecurityInfo(
+            path.c_str(),
+            SE_FILE_OBJECT,
+            OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr,
+            &pSD
+        );
+
+
+        if (result != ERROR_SUCCESS)
+        {
+            std::cout << "unable to get sec info" << std::endl;
+            return false;
+        }</pre></code>
+
+        <p>Why not <code>GetSecurityInfo</code>?</p>
+
+        <p>Why <code>c_str()</code>?</p>
+
+        <p>How does the argument for <code>SecurityInfo</code> work?</p>
+
+        <p>Please note that you will need to <b>free</b> the <code>PSECURITY_DESCRIPTOR</code> object later 
+        using <code>LocalFree</code>. The reason is this object is dynamically-allocated memory, and not freeing it 
+        will result in memory leaks.</p>
 
         
         
+        <p>PS: my original writeup for this section was real lengthy, but that was the point I figured that nothing 
+            explains code better than the code itself.
+        </p>
+
+
+        <h2 id="process-threads-and-impersonation">Processes, Threads, and Impersonation</h2>
+
+        <p>
+            You probably know that in Windows, processes have <b>threads</b> which are the actual paths of execution
+            of a program. Processes and threads have <b>access tokens</b>, which are (oversimplified a bit) used 
+            so the operating system can judge their privileges, rights, and permissions.
+        </p>
+
+        <p>
+            Windows uses the <b>impersonation model</b>, for reasons related to preventing <b>race conditions</b>.
+            In this model, there are two kinds of access tokens: primary tokens and impersonation tokens.
+        </p>
+
+        <p>
+            Let's not overcomplicate: primary tokens are process tokens, and impersonation tokens are thread tokens.
+            Don't get too hung up on what "impersonation" even really implies: I don't even know myself.
+        </p>
+
+        <p>
+            Threads don't usually have their own tokens. They merely inherit the primary token, and use it to perform 
+            their operations. However, certain actions need threads to have their own token, such as when 
+            you want threads to execute in their own security context. Calling 
+            <code>AccessCheck</code> also requires you to have a thread token, even though, in this case, 
+            we won't be altering the security context at all. Hence, we will need to create one. We don't need to change anything: 
+            we just want the thread token to refer to the same security context as the process token. 
+        </p>
+
+        <h3 id="CODE-processes-threads-and-impersonation">The Code</h3>
+        
+        <pre>
+            <code>
+            if (!ImpersonateSelf(SecurityImpersonation))
+            {
+                std::cout << "unable to impersonate" << std::endl;
+                return false;
+            }
+            </code>
+        </pre>
+
+        <p>In reality, <code>ImpersonateSelf</code> is shorthand for calls to several functions. It:
+        <ul>
+            <li>Opens the primary token.</li>
+            <li>Duplicates it as a thread token.</li>
+            <li>Assigns the thread token to the thread.</li>
+        </ul></p>
+
+        <p>In this way, you now have an actual thread-version copy of the process token!</p>
+        <p>
+            NOTE: later, when you're done impersonating, you will need to call <code>RevertToSelf</code>
+            in order to discard the thread token.
+        </p>
+        
+        <h2></h2>
+        
+        
 
         
 
-        <h2 id="citations">Citations</h2>
+        <h2 id="sources">Sources</h2>
+        <p>Also treat this as further reading!</p>
+        <h3>Books</h3>
+        <ul>
+            <li><i>Programming Windows Security</i> by Keith Brown</li>
+        </ul>
+        <h3>Websites</h3>
         <ul>
             <li>https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists</li>
         </ul>
