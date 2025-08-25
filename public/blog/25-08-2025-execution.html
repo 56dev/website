@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="../css/default_blog_post.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+  
+<body>
+
+    <a href="../index.html" id="back">back</a>
+    <main>
+        <h1>Checking Execution Permissions with the Windows API in C++.</h1>
+        <p>For people who have never worked with Win32 before (AKA, me, a day before starting to write this blog post).</p>
+        <address>By <a href="mailto:programsym987@gmail.com">56dev_</a></address>
+        <p>August 25, 2025</p>
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <ul>
+                <li><a href="#environment">Environment</a></li>
+                <li><a href="#disclaimer">Disclaimer</a></li>
+            </ul>
+            <li><a href="#security-descriptors">Security Descriptors</a></li>
+            <ul>
+                <li><a href="#CODE-security-descriptors">Code</a></li>
+            </ul>
+            <li><a href="#processes-threads-and-impersonation">Processes, Threads, and Impersonation</a></li>
+            <ul>
+                <li><a href="#CODE-processes-threads-and-impersonation">Code</a></li>
+            </ul>
+            <li><a href="#generic-mapping-and-privileges">Generic Mapping and Privileges</a></li>
+            <ul>
+                <li><a href="#CODE-generic-mapping-and-privileges">Code</a></li>
+            </ul>
+            <li><a href="#accesscheck-and-putting-it-all-together">AccessCheck and putting it all together</a></li>
+            <ul>
+                <li><a href="#CODE-accesscheck-and-putting-it-all-together">Code</a></li>
+            </ul>
+            <li><a href="#the-full-code" style="color: orangered">THE FULL CODE</a></li>
+            <li><a href="#sources-and-further-reading">Sources and Further Reading</a></li>
+        </ul>
+
+        
+        <h2 id="introduction">Introduction</h2>
+        <p>
+            Finding execution permissions is not as simple in Windows as it is in 
+            POSIX-style systems. Usually you would just use <code>std::filesystem::status::permissions</code>,
+            which, in theory, <em>could</em> maybe work, but we're just going to learn to "proper" way to 
+            do it in Windows, and learn a little bit about how the Windows API works along the way.
+        </p>
+
+        <h3 id="environment">Environment</h3>
+        <p>This is in Visual Studio 2022, with <b>C++20</b>. As far as I know, C++17 should work, as that 
+        is the minimum version for the <code>std::filesystem</code> library.</p>
+
+        <h3 id="disclaimer">Disclaimer</h3>
+        <p>If the subtitle wasn't clear enough, I'm no accredited expert on the Win32 API or even of C++. If you find an error or find a section which you would like some 
+            better wording for, please email!
+        </p>
+
+        <h2 ID="security-descriptors">Security Descriptors</h2>
+        <p>
+            To store file permissions, Windows uses <b>Security Descriptors</b>. These are made up of 
+            an <b>owner SID</b>, <b>group SID</b>, a <b>DACL</b>, and a <b>SACL</b>. 
+            <ul>
+            <li>The owner SID is usually the person who created the file, 
+            or generally a person with <b>administrative permissions</b> over it.</li>            
+            <li>The group SID is there for <em>some</em> level of compatibility with the POSIX permissions system. </li>
+            <li>The DACL is the <b>access control list</b> 
+            that defines more specific Windows permissions.</li> 
+            <li>The SACL's only use is auditing.</li>
+            </ul>
+            We're not interested in auditing, so SACLs won't be in the scope of this post.
+        </p>
+        <p>
+            To access the security descriptor, we use the <code>GetNamedSecurityInfo</code> function.
+        </p>
+
+        
+
+        <h3 id="CODE-security-descriptors">The Code</h3>
+        <p>
+            To do this in C++, you need to use the <code>GetNamedSecurityInfo</code> function.
+            (Or a suitable alternative, but we're using this one in this tutorial.) We will beam the information it gives 
+            into a security descriptor variable.
+            First, make sure you have the necessary header files included: they are <code>&lt;windows.h&gt;</code>
+            and <code>&lt;aclapi.h&gt;</code>. Then, let's create the object.
+        </p>
+
+        <p>The function definition for  <code>GetNamedSecurityInfo</code> is as follows:</p>
+       
+        <code>
+            <pre>
+                DWORD GetNamedSecurityInfo( 
+                    LPCSTR pObjectName, 
+                    SE_OBJECT_TYPE ObjectType, 
+                    SECURITY_INFORMATION SecurityInfo,
+                    [out, opt] PSID* ppsidOwner, 
+                    [out, opt] PSID* ppsidGroup, 
+                    [out, opt] PACL ppDACL, 
+                    [out, opt] PACL* ppSACL, 
+                    [out, opt] PSECURITY_DESCRIPTOR* ppSecurityDescriptor)  
+            </pre>            
+        </code>
+
+        <p>Every out paramater is optional. The first four out parameters are if we wanted to access each data structure 
+            individually, but we don't. So, we'll just pass in the address of a <code>PESECURITY_DESCRIPTOR</code> object as the last 
+            argument, and let everything else be null. 
+        </p>
+        
+        <code>
+        <pre>
+        PSECURITY_DESCRIPTOR pSD{ nullptr };
+
+        DWORD result = GetNamedSecurityInfo(
+            path.c_str(),
+            SE_FILE_OBJECT,
+            OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr,
+            &pSD
+        );
+
+
+        if (result != ERROR_SUCCESS)
+        {
+            std::cerr << "unable to get sec info" << std::endl;
+            LocalFree(pSD);
+            return false;
+        }</pre></code>
+
+        <p>
+            <details>
+                <summary>What is a <code>DWORD</code>, and all of that other stuff?</summary>
+                Windows is very fond of using <b>typedefs</b> in its code, partly for clarity, 
+                partly due to how old it is, and partly for compatibility's sake. 
+                Microsoft itself admits that some of these definitions 
+                are redundant. In our case, a <code>DWORD</code> is a 32-bit integer. Some others are: 
+                <code>LPCSTR</code> being a <code>const char *</code> and <code>PSECURITY_DESCRIPTOR</code> being 
+                <code>void *</code>.
+            </details>
+        </p>
+
+        <p>
+            <details>
+                <summary>Why not <code>GetSecurityInfo</code>?</summary>
+                The way I wrote it, I'm passing in the <em>filepath</em> to the executable, instead of a <em>handle</em>
+                to it. If you have the handle to your file, then you can totally use <code>GetSecurityInfo</code> instead.
+            </details>
+        </p>
+
+        <p>
+            <details>
+                <summary>Why <code>c_str()</code>?</summary>
+                <code>pObjectName</code> is of type <code>LPCSTR</code>, which is really just a pointer to a C-string; that is, 
+                <code>const char *</code>. 
+            </details>
+        </p>
+        <p>
+            <details>
+                <summary>How does the third argument work?</summary>
+                All of those all-caps <code>INFORMATION</code> terms are macros to low-level representations of integers (you can CTRL 
+                + Click on Visual Studio to check). Each representation has a certain bit(s?) set to ON, each bit representing security 
+                information we want. The <code>|</code> operator ORs each integer together, meaning: if a bit is set to ON in one, it will be set 
+                to ON in the final product. So the argument basically sets all the bits to ON which represent the information 
+                we want!
+            </details>
+        </p>
+
+        <p>Please note that you will need to <b>free</b> the <code>PSECURITY_DESCRIPTOR</code> object later 
+        using <code>LocalFree</code>. The reason is this object is <b>dynamically-allocated memory</b>, and not freeing it 
+        will result in memory leaks.</p>
+
+
+        <h2 id="processes-threads-and-impersonation">Processes, Threads, and Impersonation</h2>
+
+        <p>
+            You probably know that in Windows, processes have <b>threads</b> which are the actual paths of execution
+            of a program. Processes and threads have <b>access tokens</b>, which are (oversimplified a bit) used 
+            so the operating system can judge their privileges, rights, and permissions.
+        </p>
+
+        <p>
+            Windows uses the <b>impersonation model</b>, for reasons related to preventing <b>race conditions</b>.
+            In this model, there are two kinds of access tokens: primary tokens and impersonation tokens.
+        </p>
+
+        <p>
+            Let's not overcomplicate: primary tokens are process tokens, and impersonation tokens are thread tokens.
+            Don't get too hung up on what "impersonation" even really implies: I don't even know myself.
+        </p>
+
+        <p>
+            Threads don't usually have their own tokens. They merely inherit the primary token, and use it to perform 
+            their operations. However, certain actions need threads to have their own token, such as when 
+            you want threads to execute in their own security context. Calling 
+            <code>AccessCheck</code> also requires you to have a thread token, even though, in this case, 
+            we won't be altering the security context at all. Hence, we will need to create one. We don't need to change anything: 
+            we just want the thread token to refer to the same security context as the process token. 
+        </p>
+
+        <h3 id="CODE-processes-threads-and-impersonation">The Code</h3>
+        
+        <pre>
+            <code>
+            if (!ImpersonateSelf(SecurityImpersonation))
+            {
+                std::cerr << "unable to impersonate" << std::endl;
+                LocalFree(pSD);
+                return false;
+            }
+            </code>
+        </pre>
+
+        <p>In reality, <code>ImpersonateSelf</code> is shorthand for calls to several functions. It:
+        <ul>
+            <li>Opens the primary token.</li>
+            <li>Duplicates it as a thread token.</li>
+            <li>Assigns the thread token to the thread.</li>
+        </ul></p>
+
+        <p>In this way, you now have an actual thread-version copy of the process token!</p>
+        <p>
+            NOTE: later, when you're done impersonating, you will need to call <code>RevertToSelf</code>
+            in order to discard the thread token.
+        </p>
+        
+        <h2 id="generic-mapping-and-privileges">Generic Mapping and Privileges</h2>
+
+        <p>
+            The function we will use, <code>AccessCheck</code>, requires us to specify two other 
+            additional arguments. These are <code>GENERIC_MAPPING</code> and <code>PRIVILEGE_SET</code>. 
+            
+            Basically, different objects have different kinds of rights. As a hypothetical example, what 
+            would it mean to "read" a printer? You cannot read a printer the same way you could read a file. 
+            
+            To provide a level of abstraction so that programmers don't need to think about these little 
+            differences each time, Windows provides <b>generic rights</b>. But, it is still the programmer's 
+            responsibility to specify <em>how</em> these generic rights should be interpreted at the object level. 
+            
+        </p>
+
+        <p>
+            For this, we have the <code>GENERIC_MAPPING</code> structure. In it are four <code>ACCESS_MASK</code>s 
+            representing the four generic rights: read, write, execute, and all. We will create a new <code>GENERIC_MAPPING</code>
+            structure and assign these masks to the proper specific rights.
+        </p>
+
+        <p>
+            Finally, let's view what a <b>privilege</b> is. Whereas rights control access to objects, 
+            privileges control access to <b>actions</b> - such as, for example, the action of checking your 
+            rights to an object. <code>AccessCheck</code> requires that you pass in a pointer to a <code>PRIVILEGE_SET</code>
+            where it can store all of the privileges you needed, as well as a pointer to its size. 
+        </p>
+        
+        <h3 id="CODE-generic-mapping-and-privileges">The Code</h3>
+        
+        <pre>
+        <code>
+            GENERIC_MAPPING mapping{ {} };
+            mapping.GenericRead = FILE_GENERIC_READ;
+            mapping.GenericWrite = FILE_GENERIC_WRITE;
+            mapping.GenericExecute = FILE_GENERIC_EXECUTE;
+            mapping.GenericAll = FILE_ALL_ACCESS;;
+
+            PRIVILEGE_SET privileges{ {} };
+            DWORD privilegeSetLength = sizeof(privileges);
+        </code>
+        </pre>
+
+        <p>
+        <details>
+            <summary>It looks like we're mapping generic rights to more generic rights! What's up with that?</summary>
+            These are predefined macros that actually expand to the provided standard rights for a file, OR'd together. 
+            It is yet another level of abstraction. You can check by CTRL + Clicking in Visual Studio. For example, 
+            <code>FILE_GENERIC_READ</code> expands to
+            <pre>
+                <code>
+                    (STANDARD_RIGHTS_READ    |\
+                    FILE_READ_DATA           |\
+                    FILE_READ_ATTRIBUTES     |\
+                    FILE_READ_EA             |\
+                    SYNCHRONIZE)
+                </code>
+            </pre>
+        </details>
+        </p>
+
+        <h2 id="accesscheck-and-putting-it-all-together">AccessCheck and Putting it All Together</h2>
+
+        <p>
+            At last, the final stretch! It really is as simple as passing everything we've done so far 
+            into the proper positions in <code>AccessCheck</code>, along with the <b>file permission we are 
+                requesting.</b>
+            Just a few things: we need to declare 
+            an <code>ACCESS_MASK</code> to store <b>the access we were granted</b>, and a boolean to store 
+            <b>whether we were granted the access we requested.</b>
+        </p>
+
+        <p>
+            Remember that after this, you need to <b>free</b> the <code>pSD</code> and <b>revert</b> your 
+            impersonation token.
+        </p>  
+
+        <h3 id="CODE-accesscheck-and-putting-it-all-together">The Code</h3>
+
+        <pre>
+            <code>
+ACCESS_MASK grantedAccess{ 0 };
+BOOL accessStatus{ FALSE };
+
+if (!AccessCheck(pSD, GetCurrentThreadToken(), FILE_EXECUTE, &mapping, &privileges, \
+&privilegeSetLength, &grantedAccess, &accessStatus))
+{
+	std::cerr << "Checking Security Permissions: Access check was unable to succeed for path " \
+    << path << ": error " << GetLastError() << std::endl;
+	accessStatus = FALSE;
+}
+
+RevertToSelf();
+LocalFree(pSD);
+            </code>
+        </pre>
+
+        <details>
+            <summary>Why <code>BOOL</code> and not <code>bool</code>?</summary>
+            To make absolutely sure that we're playing by Windows' rules and synchronizing with 
+            how its functions are written, we use the typedef instead of 
+            the fundamental datatype. Interestingly, <code>BOOL</code> is a typedef for an <code>int</code>, 
+            and, to make matters worse, Windows has its own guidelines for how to use this datatype.
+        </details>
+        
+        <h2 id="the-full-code">THE FULL CODE</h2>
+
+        <script src="https://gist.github.com/56dev/a08ced6967ae58e36ad5ba78a8099a7f.js"></script>
+
+        <h2 id="sources-and-further-reading">Sources and Further Reading</h2>
+        <h3>Books</h3>
+        <ul>
+            <li><i>Programming Windows Security</i> by Keith Brown</li>
+        </ul>
+        
+    </main>
+
+   
+
+</body>
+
+</html>
