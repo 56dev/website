@@ -1,0 +1,53 @@
+main 
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4rem;
+    width: fit-content;
+    max-width: 60rem;
+    font-size: 1.2rem;
+    padding-bottom: 5rem;
+}
+
+a {
+    color: orangered;
+}
+
+.row {
+    display: flex;
+}
+
+section {
+    display: inline-block;
+    p {
+        max-width: 25rem;
+    }
+}
+
+h3 
+{
+    border-style: solid;
+    border-width: 1px;
+    margin: 0.5rem;
+    padding: 5px;
+}
+
+h1 
+{
+    background-color: lightblue;
+    padding: 20px;
+    color: brown;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+summary 
+{
+    text-decoration: underline;
+    color: orangered;
+}
+#back 
+{
+    position:fixed;
+    top: 0;
+}
+
