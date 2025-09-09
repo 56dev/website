@@ -30,6 +30,7 @@ h3
     border-width: 1px;
     margin: 0.5rem;
     padding: 5px;
+    height: 2rem;
 }
 
 h1 
@@ -50,4 +51,5 @@ summary
     position:fixed;
     top: 0;
 }
+
 
