@@ -1,0 +1,80 @@
+
+
+body 
+{
+    background-color: rgb(255, 255, 255);
+}
+
+main
+{
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4rem; 
+    width: fit-content;
+    min-width: 30rem;
+    max-width: 40rem;
+    margin-bottom: 20rem;
+    font-size: 1.2rem;
+    border-style: solid;
+    padding: 2rem;
+    background-color: ghostwhite;
+    box-shadow: 60px 60px ghostwhite;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+
+}
+
+img 
+{
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: auto;
+    border-style: inset;
+    border-width: 10px;
+    border-color: gray;
+}
+#chapter-list 
+{
+    border-width: 10px;
+    border-style: inset;
+    background-color: azure;
+    padding: 15px;
+    padding-left: 30px;
+}
+h1 
+{
+  text-align: center;
+  font-size: 4rem;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-weight: lighter;
+
+}
+
+p
+{
+ 
+  text-align: justify;
+}
+
+a 
+{
+  color: red;
+}
+li 
+{
+    letter-spacing: 0.5px;
+
+}
+
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
