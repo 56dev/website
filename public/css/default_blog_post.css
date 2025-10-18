@@ -23,7 +23,7 @@ h1
 p
 {
   text-indent: 10%;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
 }
 
 a 
@@ -50,6 +50,31 @@ address
 #alternative-title 
 {
   font-size: 2.1rem;
+}
+
+.quote {
+  background-color: lightgoldenrodyellow;
+  padding: 1rem;
+  color: gray;
+  border-left: solid;
+  border-color: purple;
+  font-size: 1.2rem;
+}
+
+.highlight {
+  background-color: aliceblue;
+  padding: 2rem;
+  border-left: solid;
+  border-right: solid;
+  border-color: red;
+}
+
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.7rem;
+  text-indent: 10%;
 }
 
 

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>56dev</title>
+  <link href="../css/default_blog_post.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+        
+        
+    <a href="./index.html" id="back">back</a>
+    <main>
+        <h1>Software Quality Notes for Solo-Devs</h1>
+        <address>By 56dev_ &lt;programsym987@gmail.com&gtrdot;</address>
+        <p><i>Last updated October 18, 2025</i></p>
+        <p>For log of changes, click here: <a href="./software-quality-solo-devs.txt">log</a></p>
+        <p><b>(!) DISCLAIMER: This is an evolving document! As I learn new things, I will add 
+            to this, so keep checking!</b>
+        </p>
+        <p>
+            Software quality is both the most difficult thing and also among the most 
+            important things solo-devs have to focus on. It is difficult because most 
+            software quality guides are written with organizations or corporations in mind. 
+            Without the frameworks and the peers to guide you, it becomes very hard to ensure 
+            that your solo projects are up to standards.
+        </p>
+
+        <p>
+            Luckily, your solo projects most likely don't need that much rigor. But it's still 
+            good to keep an eye on quality, both as a good habit for if you go into a 
+            traditional dev job and also just for your own peace of mind and sanity. The number 
+            of projects I've created that have crashed and burned because I didn't adhere to 
+            <em>some</em> standard of quality is embarrassing.             
+        </p>
+
+        <p>
+            Hence, here are some notes I've taken based on my own research and study 
+            of software quality. Use at your own pleasure and discretion.
+        </p>
+
+        <h2>Elements of Software Quality</h2>
+        <p>MAIN SOURCE: Practical Guide to Software Quality Management, John W. Horch</p>
+        <p>
+            To ensure software quality you first have to make sure that you <em>begin</em> 
+            correctly. 
+        </p>
+
+        <p class="quote">"Well begun is half done." - <i>Politics</i>, Aristotle</p>
+
+        <p>This means delineating precise <em>requirements</em>, so that you <em>know</em>
+        exactly what you are attempting to accomplish.</p>
+
+        <p>Without knowing what you are even going to do, how will you do it in the first place? 
+            Even if you have a vague concept of what it is, without more specificity you will likely 
+            suffer from lack of objective, and being overwhelmed by the possibilities.
+        </p>
+
+        <p class="highlight">
+            Clearly state the problem you are trying to solve. Properly define what you 
+            require from a solution, and deeply understand what it is that you want. 
+        </p>
+        
+        <p>These take up among the first few stages of the Software Life Cycle (SLC). 
+            There are some commonly defined stages in the SLC, and for solo-devs these are:
+        </p>
+        <ul>
+            <li>Concept Definition (What is the problem?)</li>
+            <li>Requirements Definition (What do we want from a solution?)</li>
+            <li>Design and Coding</li>
+            <li>Testing (Prove that your solution is "correct")</li>
+            <li>Deployment and Operation</li>
+            <li>Maintenance (Improve the solution)</li>            
+        </ul>
+
+        <p>Aside from the beginning, you must also keep up the quality throughout the SLC.</p>
+        <p>The eight elements of software quality are:</p>
+        <ul>
+            <li>Standards</li>
+            <li>Review</li>
+            <li>Testing</li>
+            <li>Defect Analysis</li>
+            <li>Config Management</li>
+            <li>Security</li>
+            <li>Education</li>
+            <li>Vendor Management</li>
+        </ul>
+        <h3>Standards</h3>
+        <p>Standards govern the entire SLC and development process. </p>
+
+        <p class="highlight">
+            Standards are <b>consistent, uniform, rigorous, and enforceable.</b>
+            They do not change or contradict each other, they have oversight over every relevant detail, and they are active 
+            and working throughout development.
+        </p>
+
+        <p>
+            Of course, you will often have to make your own standards. It is rare enough for you 
+            to have to refer to standards created by an external organization. Either way, standards  are useful 
+            so you may <em>standardize</em> certain aspects of your work that would be tiring 
+            to keep thinking about otherwise, or to provide a structure for your thinking.
+        </p>
+
+        <p>
+            For example, when you create documentation or a game design document, the format of these 
+            will often be governed by a standard.
+        </p>
+        <p>
+            How you write out your requirements formally may also be governed by a standard, such as 
+            EARS format. 
+        </p>
+
+        <p>It is up to you to decide what to standardize. A good starting point is documents containing 
+            development information, or perhaps even how to write commit messages.
+            But there is no need to make standards of 
+            everything. Oftentimes, guidelines (recommendations) and your own common sense will be enough. 
+            Don't put so much rigor that it becomes stifling to code.
+        </p>
+
+        <p class="highlight">Also, standards must be <b>necessary, feasible, and measurable.</b>
+        Without these, they are not enforceable.</p>
+        <p>
+            There must be a reason for a standard to exist, otherwise it is a waste of time and 
+            you will likely become frustrated with it.
+        </p>
+        <p>
+            The standard must also actually be possible to follow, and ideally follow easily 
+            after some initial acclimatization.
+        </p>
+        <p>
+            Finally, you need to be able to check that you are following the standard. 
+        </p>
+
+        <h3>Review</h3>
+
+        <p>In the corporate world, reviews are intended to keep your peers and managers 
+            up-to-date on what's happening in development.
+        </p>
+
+        <p>
+            Since you're on your own, they're instead a way for you to keep track of the progress 
+            you have done thus far, and to collect your thoughts on the best way to proceed forward.
+        </p>
+        <p><b>WALKTHROUGH/INSPECTION</b>: You walk through the software component, explaining its purpose, 
+            so that you or your peers can identify defects</p>
+        
+        <p><b>PROCESS REVIEW</b>: You examine your workflow, your processes, and your methodologies 
+        to see what you could be doing better to make your work easier.</p>
+
+        <p><b>AUDITS</b>: These are examinations of your work to ensure that they are <em>consistent.</em>
+        For example, a <b>physical audit</b> compares your final code to your final documentation. 
+        And a <b>functional audit</b> compares test results with requirements.</p>
+
+        <h3>Testing</h3>
+        
+        <p>This makes sure that the software requirements are being satisfied by the software.</p>
+        <p class="highlight">Testing is NOT done after you design software, but IN PARALLEL.</p>
+        <p><b>Unit and Module Tests</b> are done to ensure the fitness of each isolated module. </p>
+        <p><b>Integration Testing</b> is done when modules are combined into subsystems.</p>
+        <p><b>System Testing</b> is the testing of the entire system finally.</p>
+
+        <p>
+            As you proceed through these, the level of detail and sophistication you will need 
+            in your test reports increases.
+        </p>
+        <p>Test reports should include <b>expected output, actual output, and a conclusion</b> based on 
+        discrepancies (or lack thereof) in the former two.</p>
+        
+        <h3>Defect Analysis</h3>
+
+        <p>This involves detection, correction, and change control.</p>
+
+        <p>
+            When a change is requested, the situation must be verified. Afterwards, the change 
+            may be made. If it is correct, it may then be reported and installed into the system.
+        </p>
+
+        <p>Defect information can be used to determine patterns of defects, helping you improve 
+            your development process.
+        </p>
+
+        <h3>Configuration Management</h3>
+        <p>Consists of identification, control, and accounting.</p>
+
+        <p><b>Identification:</b> Naming of components.</p>
+        <p><b>Control</b>: Preventing unauthorized changes.</p>
+        <p><b>Accounting</b>: Versioning and change history.</p>
+        <p>Accounting, for example, is mostly handled by Git commit history. Generally, 
+            version control systems like that help out a lot in many aspects of configuration management. 
+            Since you're a solo-dev, I think that this especially will mostly be done informally. 
+        </p>
+        <h3>Security</h3>
+        <p>
+            This means protecting your data from physical threats, data theft, and malware. Remember to back up! 
+            Also, if your software is data-centric (and many are), be sure to cleanse and validate the data 
+            going into it, because many software malfunctions are actually due to malformed data.
+        </p>
+
+        <h3>Education</h3>
+        <p>
+            Basically, make sure you know how to use the tools you're given, and make sure the user 
+            knows how to use the application. Also make sure you know how to operate the system and 
+            install it, such as when you have to troubleshoot for several platforms.
+            Aside from that, for solo devs this does not extend far.
+        </p>
+        <h3>Vendor Management</h3>
+        <p>This entails getting the user's confidence that the product is of quality.</p>
+        <p>
+            I assume the products you will be creating are mostly going to be off-the-shelf, in which case 
+            the user ultimately has to trust you. But there are of course things you may do to convince them.
+        </p>
+
+
+
+    </main>
+</body>
