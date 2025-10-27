@@ -77,6 +77,15 @@ h3 {
   text-indent: 10%;
 }
 
+.tag-holder{
+  margin-left: 1rem;
+}
+#tag-display{
+  background-color: gainsboro;
+  padding: 1REM;
+  border: inset;
+}
+
 
 
 

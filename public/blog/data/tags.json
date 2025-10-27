@@ -1,0 +1,10 @@
+[
+    {
+        "tag" : "tech",
+        "description" : "Technical things where detailed outlines of the subject-matter are to be expected. Mostly those about computers, but also possibly other things relating to engineering as well."
+    },
+    {
+        "tag" : "evolving",
+        "description" : "Don't trust that these documents will stay  in one form for long. Whenever I get an idea on what to add to these, these will probably be updated."
+    }
+]

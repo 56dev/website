@@ -21,7 +21,7 @@ main
   margin-right: auto;
   margin-top: 4rem; 
   margin-bottom: 20rem;  
-  
+  padding: 1rem;
 
   min-width: 30rem;
   max-width: 40rem;
@@ -32,12 +32,6 @@ main
   transform: translate(0rem, -2.5rem);
 }
 
-
-
-p
-{
-  text-indent: 10%
-}
 
 main > .listing 
 {
@@ -56,6 +50,14 @@ main > .listing
   box-shadow: 10px 10px lightblue;
   margin-bottom: 20px;
 
+}
+
+#tag-list {
+  margin: 1rem;
+  background-color: ghostwhite;
+  border: inset;
+  padding: 1rem;
+  padding-top: 0.3rem;
 }
 
 
@@ -90,6 +92,12 @@ ul
 li 
 {
   margin: 0.8rem;
+}
+
+#tag-list {
+  a {
+    margin-left: 1rem;
+  }
 }
 
   

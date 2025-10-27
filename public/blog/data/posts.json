@@ -1,0 +1,19 @@
+[
+    {
+        "id" : 1,
+        "title": "Checking Execution Permissions in Windows with C++",
+        "url": "25-08-2025-execution.html",
+        "date_created" : "2025-08-25",
+        "date_updated" : "2025-08-25",
+        "tags": ["tech"]
+    },
+
+    {
+        "id" : 2,
+        "title": "Software Quality Notes for Solo Devs",
+        "url": "software-quality-solo-devs.html",
+        "date_created" : "2025-10-18",
+        "date_updated" : "2025-10-18",
+        "tags": ["tech", "evolving"]        
+    }
+]
