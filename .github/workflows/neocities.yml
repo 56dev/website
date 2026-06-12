@@ -16,6 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Debug files
+      run: |
+        echo "Contents of public:"
+        find public -type f | sort
+        echo ""
+        echo "Sizes:"
+        du -h public
     # When the dist_dir is ready, deploy it to neocities
     - name: Deploy to Neocities
       uses: bcomnes/deploy-to-neocities@v2.0.2
