@@ -1,59 +1,65 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>56dev's website</title>
   <link href="./css/index.css" rel="stylesheet" type="text/css" media="all">
 </head>
-<body>
+<body id="orange-pastel">
     <div class="stars">
       <p style="margin-bottom: 0">
       ★ ★ ★
       </p>
       <p style="font-size:1rem" id="loading-time">Loading ...</p>
     </div>
+    <select id="theme-select">
+        <option value="orange-pastel">orange pastel</option>
+        <option value="dark">dark</option>
+    </select>
     <main>
+
+
 
       <div class="column">
         <h1>welcome back!</h1>
         <p id="clock">good day - it is </p>
         <img src="./images/pipesglt.png">
         <p>please click the headings to navigate across the site!</p>
-        
+
         <div>
           <h2><a href=".\bio-and-about.html">bio and about this site</a></h2>
           <p>I am 56dev_! a developer from Canada.</p>
           <p>This site doubles as a portfolio and personal site.</p>
-          
+
           <a href = "mailto:programsym987@gmail.com">email me</a>
           <a href="https://x.com/56dev_">twitter/x</a>
         </div>
 
         <div>
           <h2><a href=".\update-log.html">update log</a></h2>
-          <p><b>Please note, as of August 9, 2025, this section no longer 
-                records blog, writing, or gallery updates!</b>  Its domain is now restricted 
+          <p><b>Please note, as of August 9, 2025, this section no longer
+                records blog, writing, or gallery updates!</b>  Its domain is now restricted
                 to updates to the site itself.
               </p>
             <ul id="news">
-              
+
               <li>Feb 15, 2025</li>
               <ul>
                 <li>Opened the fifty-sixth hangstar library, and published a story!</li>
               </ul>
-            </ul> 
+            </ul>
         </div>
-            
+
       </div>
 
-      <div class="column" style="padding-top: 10px;">     
-        
+      <div class="column" style="padding-top: 10px;">
+
         <div>
           <h2><a href = "./blog/index.html">blog:</a></h2>
           <ul id="new-blog-posts">
           <!--
             <li><p></p><a href="./blog/software-quality-solo-devs.html">Software Quality Notes for Solo Devs</a>  - Last Updated October 18, 2025</li>
-            <li><a href="./blog/25-08-2025-execution.html">Checking Execution Permissions in Windows with C++.</a> - Last Updated August 25, 2025</li>        
+            <li><a href="./blog/25-08-2025-execution.html">Checking Execution Permissions in Windows with C++.</a> - Last Updated August 25, 2025</li>
           -->
           </ul>
         </div>
@@ -61,21 +67,21 @@
         <div>
           <h2><a href="./writings/index.html">writings:</a></h2>
           <p>Latest short story: </p>
-          <p><a href=".\writings\data\angel.html">Angel</a></p>  
+          <p><a href=".\writings\data\angel.html">Angel</a></p>
         </div>
 
       </div>
 
       <div class="column" >
-        
+
         <h2><a href="gallery/index.html">gallery</a></h2>
         <p>latest uploaded image:</p>
         <img src = "images/gallery/06-08-25.PNG">
-        
+
         <h2><a href="music/index.html">music</a></h2>
         <p>recently added song(s) I like:</p>
         <ul>
-          
+
         <li><a href="music/index.html#lavender-waters">Lavender Waters</a></li>
         <li><a href="music/index.html#nee-nee-nee">ねぇねぇねぇ。</a></li>
         <li><a href="music/index.html#the-heady-feeling-of-freedom-good">The Heady Feeling of Freedom/Good, or Don't Be</a></li>
@@ -92,6 +98,7 @@
 <script type="module" src="scripts/index/date_and_time.js"></script>
 <script src="scripts/global/checkForMobile.js"></script>
 <script src="scripts/index/get_new_blog_posts.js"></script>
+<script src="scripts/index/theme_change.js"></script>
 
 <script defer>
   if(isPhone())
@@ -101,9 +108,9 @@
 </script>
 
 </body>
-  
-  
-  
-  
-  
+
+
+
+
+
 </html>

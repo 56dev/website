@@ -2,44 +2,59 @@
 @font-face {font-family: HelvetiPixel; src: url('../fonts/HelvetiPixel.ttf')}
 @font-face {font-family: Inconsolata; src: url('../fonts/Inconsolata-VariableFont_wdth,wght.ttf')}
 
-:root 
+:root
 {
-  
-  --almost-white : #fbf6f6;
-  --almost-black : #060C0C;
-  --orange : #ffd1ba;
-  --orange-accent :#ff8d4d;
-  --light-orange :#ffb473;
 
-  font-family: 'Inconsolata';
-  font-size: 15px;
-  height: 100%;
-  border-left-color: var(--orange);
-  border-left-style: solid;
-  border-left-width: 1px;
 
 }
-
-body 
-{
-  
-  background-color : var(--almost-white);
+body {
   width: 100%;
   margin-left:0px;
   margin-top: 0;
-  
+  font-family: 'Inconsolata';
+  font-size: 15px;
+  height: 100%;
+
+  border-left-color: var(--balls);
+  border-left-style: solid;
+  border-left-width: 1px;
+  --almost-white : #fbf6f6;
+  --almost-black : #060C0C;
+
+}
+#orange-pastel
+{
+    --main-back : #ffd1ba;
+    --main : white;
+    --accent :#ff8d4d;
+    --light :#ffb473;
+    --shadow : #ececec;
+    --font : black;
+    --h-font : var(--font);
+    --columns : var(--accent);
+    --headings-bg : var(--main-back);
+    background-color : var(--almost-white);
+}
+#dark {
+  --main : rgb(17, 14, 24);
+  --font : white;
+  --main-back : rgb(7, 6, 7);
+  --shadow: var(--main);
+  --columns : white;
+  --headings-bg : white;
+    background-color : rgb(32, 30, 30);
 }
 
 main
 {
-  background-color : white;
+  background-color : var(--main);
   padding: 3rem;
   width: fit-content;
   display: flex;
   flex-wrap: wrap;
-  box-shadow: 50px 50px #ececec;
+  box-shadow: 50px 50px var(--shadow);
   margin: 3rem;
-  
+
 
 }
 
@@ -49,17 +64,17 @@ main > .column
   max-width: 15rem;
   min-width: 11rem;
   width: fit-content;
-  border-color: var(--orange);
+  border-color: var(--columns);
   border-left-style: solid;
   border-width: 1px;
-    
+
 }
 
 main > .column-large
 {
   max-width: 25rem;
   width: fit-content;
-  border-color: var(--orange);
+  border-color: var(--main-back);
   border-left-style: solid;
   border-width: 1px;
 }
@@ -67,7 +82,7 @@ main > .column-large
 p, a, li
 {
   line-height: 13px;
-  color : var(--almost-black); 
+  color : var(--font);
   text-align: left;
   padding: 0px 5px;
   margin-bottom: 0.5rem;
@@ -78,16 +93,17 @@ img
 {
   width:auto;
   max-width:100%;
-  max-height:100%;  
+  max-height:100%;
 }
 
-a { color: var(--orange-accent)}
+a { color: var(--accent)}
 
 h1, h2
 {
-  background-color : var(--orange);
+  background-color : var(--headings-bg);
   padding: 0px 10px;
   margin: 0px;
+  color: var(--h-font);
 }
 
 h2
@@ -100,12 +116,12 @@ h2
   {
     content: "⋆ ";
     background: transparent;
-    color:black;
+    color:var(--h-font);
   }
 
-  a 
-  { 
-    color:black 
+  a
+  {
+    color:var(--accent);
   }
 }
 
@@ -115,13 +131,14 @@ h2
 
   font-size: 2rem;
   color : white;
-  background-color : var(--orange);
+  background-color : var(--main-back);
   p
   {
     display: inline;
-  } 
-  
+  }
+
 }
+
 
 
 
