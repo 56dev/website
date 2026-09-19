@@ -39,12 +39,34 @@ body {
   --main : rgb(17, 14, 24);
   --font : white;
   --main-back : rgb(7, 6, 7);
+  --accent: rgb(223, 66, 113);
   --shadow: var(--main);
-  --columns : white;
-  --headings-bg : white;
+  --columns : rgb(153, 160, 189);
+  --headings-bg : rgb(211, 203, 203);
     background-color : rgb(32, 30, 30);
 }
+#pink {
+  --main : rgb(255, 235, 239);
+  --font : black;
+  --main-back : rgb(255, 166, 181);
+  --h-font : rgb(214, 52, 60);
+  --accent: rgb(245, 75, 84);
+  --shadow: rgb(214, 185, 185);
+  --columns : rgb(255, 53, 87);
+  --headings-bg : rgb(245, 197, 197);
+  background-color : rgb(216, 195, 199);
+}
+#docu {
+  --main : white;
+  --font: black;
+  --main-back: white;
+  --h-font : white;
+  --shadow:rgb(241, 241, 241);
+  --columns: black;
+  --headings-bg : black;
 
+  background-color: white;
+}
 main
 {
   background-color : var(--main);
@@ -56,6 +78,11 @@ main
   margin: 3rem;
 
 
+}
+#docu > main {
+  border: #060C0C;
+  border-width: 0.1rem;
+  border-style:solid;
 }
 
 main > .column
@@ -121,7 +148,7 @@ h2
 
   a
   {
-    color:var(--accent);
+    color:var(--h-font);
   }
 }
 
