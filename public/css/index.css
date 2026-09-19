@@ -33,6 +33,7 @@ body {
     --h-font : var(--font);
     --columns : var(--accent);
     --headings-bg : var(--main-back);
+  --stars : var(--font);
     background-color : var(--almost-white);
 }
 #dark {
@@ -42,19 +43,21 @@ body {
   --accent: rgb(223, 66, 113);
   --shadow: var(--main);
   --columns : rgb(153, 160, 189);
+  --stars : var(--font);
   --headings-bg : rgb(211, 203, 203);
     background-color : rgb(32, 30, 30);
 }
 #pink {
   --main : rgb(255, 235, 239);
   --font : black;
-  --main-back : rgb(255, 166, 181);
-  --h-font : rgb(214, 52, 60);
-  --accent: rgb(245, 75, 84);
-  --shadow: rgb(214, 185, 185);
-  --columns : rgb(255, 53, 87);
-  --headings-bg : rgb(245, 197, 197);
-  background-color : rgb(216, 195, 199);
+  --main-back : rgb(255, 223, 239);
+  --h-font : rgb(255, 149, 154);
+  --accent: rgb(255, 123, 130);
+  --shadow: rgb(231, 187, 187);
+  --columns : rgb(255, 147, 165);
+  --headings-bg : rgb(255, 221, 221);
+  --stars : rgb(255, 134, 160);
+  background-color : rgb(255, 223, 239);
 }
 #docu {
   --main : white;
@@ -64,6 +67,7 @@ body {
   --shadow:rgb(241, 241, 241);
   --columns: black;
   --headings-bg : black;
+  --stars : var(--font);
 
   background-color: white;
 }
@@ -162,6 +166,7 @@ h2
   p
   {
     display: inline;
+    color: var(--stars);
   }
 
 }
