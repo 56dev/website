@@ -43,7 +43,7 @@ main
 
 p, a, li
 {
-  line-height: 13px;
+  line-height: 1rem;
   color : var(--almost-black);
   text-align: left;
   padding: 0px 30px;
@@ -86,7 +86,7 @@ h2, h3, h4, h5, h6
 
 p, a
 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2rem;
 }
 
 
