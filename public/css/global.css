@@ -19,7 +19,13 @@
 
 }
 
-body
+main {
+  max-width: 30rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* body
 {
   background-color : var(--almost-white);
   width: 100%;
@@ -36,6 +42,7 @@ main
   max-width: 50rem;
   box-shadow: 50px 50px #ececec;
     margin: 3rem;
+  border-style: solid;
 
 }
 
@@ -88,7 +95,7 @@ p, a
 {
   margin-bottom: 0.2rem;
 }
-
+ */
 
 
 
