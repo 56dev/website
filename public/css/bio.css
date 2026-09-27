@@ -1,0 +1,100 @@
+
+@font-face {font-family: HelvetiPixel; src: url('../fonts/HelvetiPixel.ttf')}
+@font-face {font-family: Inconsolata; src: url('../fonts/Inconsolata-VariableFont_wdth,wght.ttf')}
+
+:root
+{
+
+  --almost-white : #fbf6f6;
+  --almost-black : #060C0C;
+  --primary : #ffd1ba;
+  --accent :#ff8d4d;
+
+  font-family: 'Inconsolata';
+
+  font-size: 1vmax;
+    @media (max-width: 1600px) {
+        font-size: 16px;
+    }
+   --dimensions: 1.2vmax;
+
+  @media (max-aspect-ratio: 1) {
+    font-size: 1.2rem;
+
+  }
+
+  height: 100%;
+  border-left-color: var(--primary);
+  border-left-style: solid;
+  border-left-width: 1px;
+  background: var(--almost-white);
+@media (max-aspect-ratio: 1) {
+        background-image: url("../images/bio/star_web.png");
+        background-repeat: repeat;
+        background-size: 60px;
+        background-blend-mode: lighten;
+        background-color: rgba(251, 251, 251, 0.94);
+    }
+
+}
+
+.main-holder {
+
+    position: static;
+    margin-top: 10rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    padding-bottom: 4rem;
+    @media (min-aspect-ratio: 1) {
+        position: fixed;
+        bottom:0;
+        max-width: 49vw;
+        max-height: 60vh;
+        padding-bottom: 1rem;
+        margin-left: 5rem;
+    }
+    h1 {
+        background-color: var(--primary);
+        z-index: -1;
+
+    }
+    p {
+        position: relative;
+        z-index: 1;
+    }
+@media (min-aspect-ratio: 1) {
+
+    #img{
+        z-index: 0;
+        position: fixed;
+        transform: translate(30vw, -10rem);
+        pointer-events: none;
+        position-anchor: --main-anchor;
+
+        width: 25rem;
+
+
+    }
+
+}
+ @media (max-aspect-ratio: 1) {
+    #img{
+        display: none;
+    }
+}
+main {
+    z-index: 1;
+@media (min-aspect-ratio: 1) {
+        max-height: 40vh;
+
+    }
+        overflow-y: auto;
+        overflow-x: none;
+}
+
+
+
+}
+
+
+
