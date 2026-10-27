@@ -6,5 +6,9 @@
     {
         "tag" : "evolving",
         "description" : "Don't trust that these documents will stay  in one form for long. Whenever I get an idea on what to add to these, these will probably be updated."
+    },
+    {
+        "tag": "misc",
+        "description": "I don't know where to put these."
     }
 ]

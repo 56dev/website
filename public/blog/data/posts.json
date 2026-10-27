@@ -1,5 +1,13 @@
 [
     {
+        "id": 3,
+        "title":  "Ideology, Institutions, and Wisdom",
+        "url": "ideology-wisdom.html",
+        "date_created": "2026-10-26",
+        "date_updated": "2026-10-26",
+        "tags": ["misc"]
+    },
+    {
         "id" : 1,
         "title": "Checking Execution Permissions in Windows with C++",
         "url": "25-08-2025-execution.html",
@@ -14,6 +22,6 @@
         "url": "software-quality-solo-devs.html",
         "date_created" : "2025-10-18",
         "date_updated" : "2025-10-18",
-        "tags": ["tech", "evolving"]        
+        "tags": ["tech", "evolving"]
     }
 ]

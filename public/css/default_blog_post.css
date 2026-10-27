@@ -4,18 +4,15 @@
 body {
     min-height: 100%;
 }
-article
+main
 {
     padding:10px;
     margin-left: auto;
-    margin-top: 0.1rem;
     margin-right: auto;
     max-width: 50rem;
-    margin-bottom: 20rem;
-    padding: 10rem;
+    margin-bottom: 5rem;
     background-color: white;
-    border: rgb(250, 127, 78) solid 0.5rem right left;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     img {
         margin: auto;
         display: block;
@@ -31,17 +28,13 @@ article
     transform: rotate(30deg);
 
 }
-#article-hold {
-    background: linear-gradient(to top,white, white 70%, rgb(250, 127, 78) 70%, rgb(250, 127, 78) 80%, white 80%);
-    padding: 1rem;
-    margin-top: 5rem;
-}
+
 #header {
     text-align: center;
-    background-color: rgb(250, 127, 78);
+    background-color: rgb(141, 137, 135);
     color: white;
     padding: 0.3rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 #madew {
     display:block;
@@ -62,10 +55,10 @@ h1
 p
 {
   text-indent: 10%;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 footer {
-    background-color: orangered;
+    background-color: rgb(141, 137, 135);
     padding: 1rem;
     text-align: center;
     p {
@@ -94,16 +87,16 @@ a
     height:1rem;
 }
 #grad0 {
-    background-color: rgba(255, 68, 0, 0.083);
+    background-color: rgba(141, 137, 135, 0.083);
 }
 #grad1 {
-    background-color: rgba(255, 68, 0, 0.199);
+    background-color: rgba(141, 137, 135, 0.199);
 }
 #grad2 {
-    background-color: rgba(255, 68, 0, 0.4);
+    background-color: rgba(141, 137, 135, 0.4);
 }
 #grad3 {
-    background-color: rgba(255, 68, 0, 0.8);
+    background-color: rgba(141, 137, 135, 0.8);
 }
 address
 {
@@ -117,12 +110,16 @@ address
 }
 
 .quote {
+
   background-color: lightgoldenrodyellow;
   padding: 1rem;
   color: gray;
   border-left: solid;
   border-color: purple;
   font-size: 1.2rem;
+}
+.quote::before {
+    content: "<br>"
 }
 
 .highlight {
